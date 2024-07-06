@@ -47,7 +47,8 @@ jobs:
     continue-on-error: ${{ matrix.python == '3.13' }}
     steps:
       - uses: actions/checkout@v4
-      - uses: coherent-oss/supply-config@main
+      - name: Print repository name
+        run: echo "The repository name is $GITHUB_REPOSITORY"
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
