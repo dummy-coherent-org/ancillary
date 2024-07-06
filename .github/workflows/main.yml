@@ -94,8 +94,6 @@ jobs:
         jobs: ${{ toJSON(needs) }}
 
   release:
-    permissions:
-      contents: write
     needs:
     - check
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
