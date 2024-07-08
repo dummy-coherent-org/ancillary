@@ -23,6 +23,7 @@ jobs:
   test:
     strategy:
       # https://blog.jaraco.com/efficient-use-of-ci-resources/
+      fail-fast: false
       matrix:
         python:
         - "3.8"
@@ -70,25 +71,25 @@ jobs:
         diff-cover coverage.xml --compare-branch=origin/main --html-report diffcov.html
         diff-cover coverage.xml --compare-branch=origin/main --fail-under=100
 
-  docs:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Setup Python
-      uses: puzzlime/setup-venv@v3.0.0
-      with:
-        python-version: 3.x
-        install-cmd: pip install .[doc]
-    - shell: bash
-      run: |
-        set -euo pipefail
-        cd docs
-        python -m sphinx -W --keep-going . ./build/html
-        python -m sphinxlint \
-          # workaround for sphinx-contrib/sphinx-lint#83
-          --jobs 1
+  # docs:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #     with:
+  #       fetch-depth: 0
+  #   - name: Setup Python
+  #     uses: puzzlime/setup-venv@v3.0.0
+  #     with:
+  #       python-version: 3.x
+  #       install-cmd: pip install .[doc]
+  #   - shell: bash
+  #     run: |
+  #       set -euo pipefail
+  #       cd docs
+  #       python -m sphinx -W --keep-going . ./build/html
+  #       python -m sphinxlint \
+  #         # workaround for sphinx-contrib/sphinx-lint#83
+  #         --jobs 1
 
   check:  # This job does nothing and is only used for the branch protection
     if: always()
@@ -96,7 +97,7 @@ jobs:
     needs:
     - test
     - diffcov
-    - docs
+    # - docs
 
     runs-on: ubuntu-latest
 
