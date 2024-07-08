@@ -62,11 +62,11 @@ jobs:
       uses: puzzlime/setup-venv@v3.0.0
       with:
         python-version: 3.x
-        install-cmd: pip install .[test] diff-cover
+        install-cmd: pip install coherent.cli diff-cover
     - shell: bash
       run: |
         set -euo pipefail
-        pytest {posargs} --cov-report xml
+        coh test --cov-report xml
         diff-cover coverage.xml --compare-branch=origin/main --html-report diffcov.html
         diff-cover coverage.xml --compare-branch=origin/main --fail-under=100
 
@@ -80,7 +80,7 @@ jobs:
       uses: puzzlime/setup-venv@v3.0.0
       with:
         python-version: 3.x
-        install-cmd: pip install .[test] .[doc]
+        install-cmd: pip install .[doc]
     - shell: bash
       run: |
         set -euo pipefail
