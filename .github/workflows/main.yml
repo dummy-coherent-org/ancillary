@@ -71,6 +71,7 @@ jobs:
         diff-cover coverage.xml --compare-branch=origin/main --html-report diffcov.html
         diff-cover coverage.xml --compare-branch=origin/main --fail-under=100
 
+  # coherent-oss/system#4
   # docs:
   #   runs-on: ubuntu-latest
   #   steps:
