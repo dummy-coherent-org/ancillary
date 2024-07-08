@@ -49,7 +49,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           cache-dependency-path: pyproject.toml
-          install-cmd: pip install .[test]
+          install-cmd: pip install coherent.cli && coh install .[test]
       - name: Run tests for ${{ matrix.python }} (${{ runner.os }})
         run: coh test
 
