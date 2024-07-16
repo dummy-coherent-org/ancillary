@@ -6,6 +6,10 @@ on:
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 env:
   # Environment variable to support color support (jaraco/skeleton#66)
   FORCE_COLOR: 1
@@ -64,8 +68,7 @@ jobs:
       with:
         python-version: 3.x
         install-cmd: pip install coherent.cli diff-cover
-    - shell: bash
-      run: |
+    - run: |
         set -euo pipefail
         coh test --cov-report xml
         diff-cover coverage.xml --compare-branch=origin/main --html-report diffcov.html
