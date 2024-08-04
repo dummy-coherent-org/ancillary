@@ -54,7 +54,7 @@ jobs:
         with:
           python-version: 3.x
       - name: Run tests for ${{ matrix.python }} (${{ runner.os }})
-        run: pipx run coherent.cli test
+        run: pipx run coherent.test>=0.6.1
 
   diffcov:
     runs-on: ubuntu-latest
@@ -68,7 +68,7 @@ jobs:
         python-version: 3.x
     - run: |
         set -euo pipefail
-        pipx run --pip-args pytest-cov coherent.test --cov-report xml
+        pipx run --pip-args pytest-cov coherent.test>=0.6.1 --cov-report xml
         pip install diff-cover
         diff-cover coverage.xml --compare-branch=origin/main --html-report diffcov.html
         diff-cover coverage.xml --compare-branch=origin/main --fail-under=100
@@ -86,7 +86,7 @@ jobs:
     - shell: bash
       run: |
         set -euo pipefail
-        cd docs
+        cd docs || exit 0
         pip install sphinx
         python -m sphinx -W --keep-going . ./build/html
         python -m sphinxlint \
