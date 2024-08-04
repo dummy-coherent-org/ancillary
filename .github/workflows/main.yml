@@ -54,7 +54,7 @@ jobs:
         with:
           python-version: 3.x
       - name: Run tests for ${{ matrix.python }} (${{ runner.os }})
-        run: pipx run coherent.test
+        run: pipx run coherent.cli test
 
   diffcov:
     runs-on: ubuntu-latest
