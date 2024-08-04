@@ -68,8 +68,8 @@ jobs:
         python-version: 3.x
     - run: |
         set -euo pipefail
-        pip install pytest-cov diff-cover
-        pipx run coherent.test --cov-report xml
+        pipx run --pip-args pytest-cov coherent.test --cov-report xml
+        pip install diff-cover
         diff-cover coverage.xml --compare-branch=origin/main --html-report diffcov.html
         diff-cover coverage.xml --compare-branch=origin/main --fail-under=100
 
