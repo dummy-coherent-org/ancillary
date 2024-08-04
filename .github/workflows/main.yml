@@ -86,7 +86,7 @@ jobs:
     - shell: bash
       run: |
         set -euo pipefail
-        cd docs || (echo No docs to build, skipping. && exit 0)
+        cd (meta)/docs || (echo No docs to build, skipping. && exit 0)
         pip install sphinx
         python -m sphinx -W --keep-going . ./build/html
         python -m sphinxlint \
