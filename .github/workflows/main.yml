@@ -50,12 +50,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
-        uses: puzzlime/setup-venv@v3.0.0
+        uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python }}
-          install-cmd: pip install coherent.cli
+          python-version: 3.x
       - name: Run tests for ${{ matrix.python }} (${{ runner.os }})
-        run: coh test
+        run: pipx run coherent.test
 
   diffcov:
     runs-on: ubuntu-latest
@@ -64,13 +63,13 @@ jobs:
       with:
         fetch-depth: 0
     - name: Setup Python
-      uses: puzzlime/setup-venv@v3.0.0
+      uses: actions/setup-python@v5
       with:
         python-version: 3.x
-        install-cmd: pip install coherent.cli diff-cover
     - run: |
         set -euo pipefail
-        coh test --cov-report xml
+        pipx run coherent.cli test --cov-report xml
+        pip install diff-cover
         diff-cover coverage.xml --compare-branch=origin/main --html-report diffcov.html
         diff-cover coverage.xml --compare-branch=origin/main --fail-under=100
 
@@ -82,14 +81,14 @@ jobs:
   #     with:
   #       fetch-depth: 0
   #   - name: Setup Python
-  #     uses: puzzlime/setup-venv@v3.0.0
+  #     uses: actions/setup-python@v5
   #     with:
   #       python-version: 3.x
-  #       install-cmd: pip install .[doc]
   #   - shell: bash
   #     run: |
   #       set -euo pipefail
   #       cd docs
+  #       pip install .[doc]
   #       python -m sphinx -W --keep-going . ./build/html
   #       python -m sphinxlint \
   #         # workaround for sphinx-contrib/sphinx-lint#83
