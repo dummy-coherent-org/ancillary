@@ -68,31 +68,30 @@ jobs:
         python-version: 3.x
     - run: |
         set -euo pipefail
-        pipx run coherent.cli test --cov-report xml
-        pip install diff-cover
+        pip install pytest-cov diff-cover
+        pipx run coherent.test --cov-report xml
         diff-cover coverage.xml --compare-branch=origin/main --html-report diffcov.html
         diff-cover coverage.xml --compare-branch=origin/main --fail-under=100
 
-  # coherent-oss/system#4
-  # docs:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #     with:
-  #       fetch-depth: 0
-  #   - name: Setup Python
-  #     uses: actions/setup-python@v5
-  #     with:
-  #       python-version: 3.x
-  #   - shell: bash
-  #     run: |
-  #       set -euo pipefail
-  #       cd docs
-  #       pip install .[doc]
-  #       python -m sphinx -W --keep-going . ./build/html
-  #       python -m sphinxlint \
-  #         # workaround for sphinx-contrib/sphinx-lint#83
-  #         --jobs 1
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.x
+    - shell: bash
+      run: |
+        set -euo pipefail
+        cd docs
+        pip install sphinx
+        python -m sphinx -W --keep-going . ./build/html
+        python -m sphinxlint \
+          # workaround for sphinx-contrib/sphinx-lint#83
+          --jobs 1
 
   check:  # This job does nothing and is only used for the branch protection
     if: always()
