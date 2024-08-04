@@ -54,7 +54,7 @@ jobs:
         with:
           python-version: 3.x
       - name: Run tests for ${{ matrix.python }} (${{ runner.os }})
-        run: pipx run coherent.test>=0.6.1
+        run: pipx run coherent.test
 
   diffcov:
     runs-on: ubuntu-latest
@@ -68,7 +68,7 @@ jobs:
         python-version: 3.x
     - run: |
         set -euo pipefail
-        pipx run --pip-args pytest-cov coherent.test>=0.6.1 --cov --cov-report xml
+        pipx run --pip-args pytest-cov coherent.test --cov --cov-report xml
         pip install diff-cover
         diff-cover coverage.xml --compare-branch=origin/main --html-report diffcov.html
         diff-cover coverage.xml --compare-branch=origin/main --fail-under=100
