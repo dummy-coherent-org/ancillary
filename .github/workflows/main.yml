@@ -67,7 +67,7 @@ jobs:
       with:
         python-version: 3.x
     - run: |
-        set -euo pipefail
+        set -euxo pipefail
         pipx run --pip-args pytest-cov coherent.test --cov --cov-report xml
         pip install diff-cover
         diff-cover coverage.xml --compare-branch=origin/main --html-report diffcov.html
@@ -85,7 +85,7 @@ jobs:
         python-version: 3.x
     - shell: bash
       run: |
-        set -euo pipefail
+        set -euxo pipefail
         cd '(meta)/docs' || (echo No docs to build, skipping. && exit 0)
         pip install sphinx
         python -m sphinx -W --keep-going . ./build/html
